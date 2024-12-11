@@ -1,0 +1,32 @@
+FROM node:22.0.1-bullseye-slim
+
+# Set the working directory
+WORKDIR /app
+
+# Copy package.json and package-lock.json (if present)
+COPY package*.json ./ 
+
+# Remove existing node_modules to ensure a clean installation
+RUN rm -rf node_modules
+
+# Install dependencies
+RUN npm install
+
+# FIXME: There might be issues with the sharp module.
+# Currently resolved by switching the base image from alpine to bullseye.
+# RUN npm install --cpu=x64 --os=linux --libc=musl sharp
+# Rebuild sharp
+# workaround: https://github.com/gatsbyjs/gatsby/issues/24559
+# RUN npm rebuild --verbose sharp
+
+# Copy all project files into the container
+COPY . .
+
+# Build the Strapi application
+RUN npm run build
+
+# Expose ports (Strapi uses 1337 by default)
+EXPOSE 1337
+
+# Command to start Strapi in development mode
+CMD ["npm", "run", "dev"]
