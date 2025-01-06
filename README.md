@@ -33,7 +33,7 @@ SERVER_PASSWORD: The password for your server's root user.
 SERVER_USER: The username (e.g., root).
 DOMAIN_NAME: The domain name (e.g., example.com).
 
-### Step 3: Create and Configure the Database
+### Step 3: Create and Configure the Database && install all requiered programs in remote server
 Before deploying, create a PostgreSQL database on your Linux server
 
 ```bash
@@ -43,6 +43,11 @@ sudo -u postgres psql
 CREATE DATABASE your_database_name;
 CREATE USER your_user_name WITH PASSWORD 'your_password';
 GRANT ALL PRIVILEGES ON DATABASE your_database_name TO your_user_name;
+```
+
+install all requiered programs in remote server
+```bash
+./setup.sh
 ```
 
 ### Step 4: Obtain SSL Certificates with Certbot
